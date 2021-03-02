@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}Welcome!{% endblock %}
+
+{% block left %}
+{% show_latest_posts %}
+{% endblock %}
+
+{% block middle %}
+<style>
+  .starter-template {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+</style>
+<div class="container">
+  <div class="starter-template">
+    <h1>Welcome to Scenario</h1>
+    <p class="lead">Your account has been successfully created. 
+      Now you can login <a href="{% url 'login' %}">here</a></p>
+  </div>
+</div>
+{% endblock %}

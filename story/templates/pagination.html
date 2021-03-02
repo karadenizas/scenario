@@ -1,0 +1,15 @@
+  <div class="text-center">
+    <div class="btn-group" role="group">
+    {% if page.has_previous %}
+      <a class="btn btn-outline-success btn-sm" href="?page={{ page.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+    {% else %}
+      <a class="btn btn-outline-success btn-sm" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    {% endif %}
+      <a class="btn btn-outline-dark btn-sm disabled">Page {{page.number}} of {{page.paginator.num_pages}}</a>
+    {% if page.has_next %}
+      <a class="btn btn-outline-success btn-sm" href="?page={{ page.next_page_number }}">Next</a>
+    {% else %}
+      <a class="btn btn-outline-success btn-sm" href="#">Next</a>
+    {% endif %}
+    </div>
+  </div>

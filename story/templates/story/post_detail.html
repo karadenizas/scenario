@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}{{post.title}}{% endblock %}
+
+{% block left %}
+{% show_latest_posts %}
+{% endblock %}
+
+{% block middle %}
+
+<div class="starter-template">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message|safe }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <div class="card text">
+                    <div class="card-header">
+                      {{post.title}}
+                    </div>
+                    <div class="card-body">
+                      <!-- <h5 class="card-title">Special title treatment</h5> -->
+                      <p class="card-text">{{post.body}}</p>
+                      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{post.publish}} by <a href="#">{{post.author}}</a>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{ post.id }}">
+                            {% if user not in post.liked.all %}
+                                <button type="submit" class="btn btn-success">Like</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-danger">UnLike</button>
+                            {% endif %}
+                            <strong>{{ post.liked.all.count }} likes {% if user in post.liked.all %} and you liked! {% endif %}</strong>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-auto">
+                        <a href="{% url 'post_detail' year=post.publish.year month=post.publish.month day=post.publish.day post=post.slug %}"><h4>Last Comments</h4></a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="{% url 'mlcomments' year=post.publish.year month=post.publish.month day=post.publish.day post=post.slug %}"><h4>Most Liked Comments</h4></a>
+                    </div>
+                </div>
+                {% block comments %}
+                <div class="card text bg-light ">
+                    <div class="card-header">
+                        <div class="text-center textcolor"><h3>Last Comments</h3></div>
+                    </div>
+                </div>
+                <br>
+                {% for comment in viewComments %}
+                <div class="card text">
+                    <div class="card-body">
+                        <p class="card-text">{{comment.body|linebreaks}}</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{comment.created}} by <a href="#">{{comment.author}}</a>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                            {% if user not in comment.liked.all %}
+                                <button type="submit" class="btn btn-success">Like</button>
+                            {% else %}
+                                <button type="submit" class="btn btn-danger">UnLike</button>
+                            {% endif %}
+                            <strong>{{ comment.liked.all.count }} likes {% if user in comment.liked.all %} and you liked! {% endif %}</strong>
+                        </form>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+                <br>
+                {% include 'pagination.html' with page=viewComments %}
+                {% endblock %}
+
+                <div class="col-auto">
+                    <br>
+                    <h2 class="text-center">Add Comment</h2>
+                    <form method="POST">
+                        <div class="mb-3">
+                            {{comment_form.body}}
+                            {% csrf_token %}
+                            <br>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Send Comment</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

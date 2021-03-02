@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}Write Story{% endblock %}
+
+{% block left %}
+{% show_latest_posts %}
+{% endblock %}
+
+{% block middle %}
+
+<style>
+    .starter-template {
+        padding: 3rem 1.5rem;
+        text-align: left;
+    }
+
+    /* messages */
+    ul.messages {
+        margin: 10px 100px;
+        padding: 0;
+        list-style-type:
+            none;
+    }
+
+    ul.messages li.success,
+    ul.messages li.warning,
+    ul.messages li.error,
+    ul.messages li.info {
+        margin: 0;
+        padding: 14px 20px;
+        list-style: none;
+        color: #fff;
+    }
+
+    ul.messages li.success {
+        background: #49c549;
+    }
+
+    ul.messages li.success a {
+        color: #0ac33e;
+    }
+
+    ul.messages li.error {
+        background: #a30029;
+        color: #ffffff;
+    }
+
+    ul.messages li.error a {
+        color: #e9828e;
+    }
+
+    ul.messages li.info {
+        background: #faffae;
+        color: #696b4e;
+    }
+
+    ul.messages li.info a {
+        color: #1586de;
+    }
+
+    ul.messages li.warning {
+        background: #de9404;
+    }
+
+    ul.messages li.warning a {
+        color: #f49000;
+    }
+
+    ul.messages li a.close {
+        margin: 0;
+        float: right;
+        opacity: 1;
+        border: 0;
+        box-shadow: none;
+        text-shadow: none;
+    }
+</style>
+
+<div class="container">
+    <div class="starter-template">
+        <div class="col-8">
+            {% if post_form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{post_form.errors}}
+            </div>
+            {% endif %}
+
+            <h2 class="text-center">Write Story</h2>
+            <hr>
+            <br>
+            <div class="mb-3">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{post_form.title}}
+                    <br>
+                    {{post_form.body}}
+                    <br>
+                    {{post_form.status}}
+                    <br>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Write Story</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

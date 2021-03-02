@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}My Stories{% endblock %}
+
+{% block left %}
+{% show_latest_posts %}
+{% endblock %}
+
+{% block middle %}
+
+<style>
+    .starter-template {
+      padding: 3rem 1.5rem;
+      text-align: left;
+    }
+</style>
+
+<div class="container">
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-auto">
+                <h2><a href="{% url 'my_stories' %}">My Stories</a></h2>
+            </div>
+            <div class="col-auto">
+                <h2><a href="{% url 'my_comments' %}">My Comments</a></h2>
+            </div>
+            <div class="col-auto">
+                <h2><a href="{% url 'drafted' %}">Drafted</a></h2>
+            </div>
+        </div>
+        <hr>
+            {% for i in post %}
+            <h4>
+            <a href="{{i.get_absolute_url}}">
+                {{i}}
+            </a>
+            </h4> 
+            <p>{{i.body|truncatewords:20}}</p>
+            <br>
+            {% endfor %}
+            {% include 'pagination.html' with page=post %}
+    </div>
+</div>
+
+{% endblock %}

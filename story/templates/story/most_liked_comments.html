@@ -1,0 +1,40 @@
+{% extends 'story/post_detail.html' %}
+
+{% block comments %}
+
+<div class="card text bg-light ">
+    <div class="card-header">
+        <div class="text-center textcolor"><h3>Most Liked Comments</h3></div>
+    </div>
+</div>
+
+<hr>
+<br>
+
+{% for comment in ml_viewComments %}
+
+<div class="card text">
+    <div class="card-body">
+        <p class="card-text">{{comment.body|linebreaks}}</p>
+    </div>
+    <div class="card-footer text-muted">
+        {{comment.created}} by <a href="#">{{comment.author}}</a>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+            {% if user not in comment.liked.all %}
+                <button type="submit" class="btn btn-success">Like</button>
+            {% else %}
+                <button type="submit" class="btn btn-danger">UnLike</button>
+            {% endif %}
+            <strong>{{ comment.liked.all.count }} likes {% if user in comment.liked.all %} and you liked! {% endif %}</strong>
+        </form>
+    </div>
+</div>
+<br>
+
+{% endfor %}
+
+{% include 'pagination.html' with page=ml_viewComments %}
+
+{% endblock %}

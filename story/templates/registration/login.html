@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}Login to Scenario{% endblock %}
+
+{% block left %}
+{% show_latest_posts %}
+{% endblock %}
+
+{% block middle %}
+<div class="row justify-content-center">
+    <form action="{% url 'login' %}" method="POST">
+        <br>
+        <div class="text-center"><h1 class="h3 mb-3 font-weight-normal">Login</h1></div>
+        <div class="mb-3">
+            {% csrf_token %}
+            <label>Username:</label>
+            {{form.username}}
+            <br>
+            <label>Password :</label>
+            {{form.password}}
+            <br>
+        </div>
+        <div class="alert alert-success" role="alert">
+            If you don't have an account <a href="{% url 'register' %}">register here!</a>
+        </div>
+        <div class="alert alert-success" role="alert">
+            Forgotten your password? <a href="{% url 'password_reset' %}">click here!</a>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{form.errors}}
+            </div>
+        {% endif %}
+        <div class="d-grid gap-2 col-4 mx-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

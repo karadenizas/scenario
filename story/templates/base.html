@@ -1,0 +1,92 @@
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    </head>
+
+    <body>
+        <div class="row">
+            <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
+                <div class="container-fluid">
+                    <div class="col-3">
+                        <a class="navbar-brand text-success fst-italic fw-bold font-monospace fs-3" href="{% url 'index' %}">
+                            <img src="{% static 'icons/ico1.svg' %}" alt="" width="40" height="40">
+                            scenario</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="col-3">
+                            <form class="d-flex">
+                            <input class="form-control me-1" type="search" placeholder="Search,users,scenarios" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+                        </div>
+                        <div class="col-6 offset-4">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link active text-success fw-bold" href="{% url 'my_stories' %}">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-success fw-bold" href="{% url 'create' %}">Create Post</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link active dropdown-toggle text-success fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Account
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'account' %}">Account</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-success fw-bold" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link active text-success fw-bold" aria-current="page" href="{% url 'index' %}">Stories</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-success fw-bold" href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-success fw-bold" href="{% url 'register' %}">Signup</a>
+                            </li>
+                            {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-3">
+                    {% block left %}
+                    {% endblock %}
+                </div>
+                <div class="col-6">
+                    {% block middle %}
+                    {% endblock %}
+                </div>
+                <div class="col-3">
+                    {% block right %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+        <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    </body>
+</html>

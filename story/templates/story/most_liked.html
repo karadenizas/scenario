@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Scenario{% endblock %}
+
+{% block left %}
+<div class="card border-success mb-3" style="max-width: 18rem;">
+  <div class="card-header bg-transparent border-success text-success">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <a href="{% url 'index' %}" class="btn btn-outline-success btn-sm" aria-current="page">Last Post</a>
+        </div>
+        <div class="col">
+          <a href="{% url 'mlposts' %}" class="btn btn-outline-success btn-sm" aria-current="page">Popular</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="list-group">
+    {% for post in posts %}
+    <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action list-group-item-light" aria-current="true">
+    {{ post.title|truncatechars:35 }}
+    </a>
+    {% endfor %}
+  </div>
+  <div class="card-footer bg-transparent border-success">
+    {% include 'pagination.html' with page=posts %}
+  </div>
+</div>
+{% endblock %}
